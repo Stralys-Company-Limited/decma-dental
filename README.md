@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DECMA Dental Clinic website
 
-## Getting Started
+Bilingual (English at `/`, Swahili at `/sw`) clinic website with online booking, built with Next.js 16
+(App Router, Cache Components), Tailwind CSS 4, Supabase and Resend.
 
-First, run the development server:
+The design sources (mockup, brand guidelines, SEO recommendations) are kept locally in `design files/`
+and are not committed. Original logo files are in `public/brand/`; the web-sized versions used by the site
+are in `public/brand/web/`.
+
+## Run locally
 
 ```bash
+npm install
+cp .env.example .env   # fill in the values
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Without Supabase keys the site still runs: booking and the forms show a "please call" message.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Where things live
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| What | Where |
+| --- | --- |
+| Clinic details (name, address, phone, hours, opening date, registration numbers) | `lib/site.ts` |
+| Interface text, English and Swahili | `lib/i18n/dictionaries/en.ts`, `sw.ts` |
+| Service pages | `content/services/*.ts` |
+| Oral health articles | `content/articles/{en,sw}/*.mdx` and `content/articles/index.ts` |
+| Privacy notice and terms | `content/legal/{en,sw}/*.mdx` |
+| Page titles and meta descriptions | `lib/seo.ts` |
+| Brand colours and fonts | `app/globals.css` |
+| Database schema | `supabase/migrations/0001_init.sql` |
+| Emails | `emails/` |
 
-## Learn More
+Values in `[SQUARE BRACKETS]` are placeholders. Replace them only with confirmed facts.
 
-To learn more about Next.js, take a look at the following resources:
+## Set up bookings
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Create a Supabase project and run `supabase/migrations/0001_init.sql` in the SQL editor.
+2. Add the clinic's confirmed hours to `opening_hours` (`supabase/seed.sql` has sample hours for testing).
+3. Set `site.openingDateISO` in `lib/site.ts` to the first bookable day. Online booking stays closed until it is set.
+4. Create a Resend account, verify the sending domain and set `RESEND_API_KEY`, `RESEND_FROM` and `CLINIC_NOTIFY_EMAIL`.
+5. For staff access: create the user in Supabase Auth, then `insert into public.staff (user_id, display_name) values ('<user id>', 'Reception');`.
+   Staff sign in at `/admin`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Patients receive a confirmation email with an `.ics` invitation (works with Apple, Outlook, Samsung and most
+calendars, with reminders one day and two hours before), Google / Outlook.com / Office 365 links, and a link
+to cancel. A reminder email is sent about 24 hours before by the hourly cron job in `vercel.json`
+(`/api/cron/reminders`, protected by `CRON_SECRET`). Hourly cron jobs need a Vercel Pro plan; on Hobby, change
+the schedule to daily.
 
-## Deploy on Vercel
+## Launch checklist
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [ ] Confirm the single public name, domain (`decma.co.tz`) and set `SITE_URL`.
+- [ ] Replace every placeholder in `lib/site.ts` (phone, email, address, landmark, hours, insurers,
+      cancellation policy, facility registration number, map embed, geo coordinates).
+- [ ] Native-speaker review of all Swahili text (dictionaries, services, articles, legal pages).
+- [ ] Legal review of the privacy notice and terms.
+- [ ] Replace `public/images/hero-tooth.webp` with the original illustration file, and add real clinic photos
+      (no named or identifiable doctors).
+- [ ] Supabase migration run, opening hours entered, staff accounts created.
+- [ ] Resend domain verified; send a test booking and check the confirmation, reminder and cancellation emails.
+- [ ] Vercel: environment variables set, HTTPS, one preferred host (www or non-www) redirecting to the other.
+- [ ] Google Search Console and Bing Webmaster: verify the site and submit `/sitemap.xml`.
+- [ ] Google Business Profile: "Dental clinic", opening date, the exact same name, address and phone as the site.

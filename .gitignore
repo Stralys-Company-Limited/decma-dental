@@ -32,9 +32,13 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel
+
+# internal design sources (mockup, brand guidelines, SEO report): kept locally, not published
+/design files/
 
 # typescript
 *.tsbuildinfo
