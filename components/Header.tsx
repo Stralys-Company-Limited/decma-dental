@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getDictionary, getLocale } from "@/lib/i18n/server";
-import { localePath } from "@/lib/i18n/config";
+import { enabledLocales, localePath } from "@/lib/i18n/config";
 import { site, telHref } from "@/lib/site";
 import { Logo } from "@/components/Logo";
 import { ButtonLink } from "@/components/ui/Button";
@@ -12,7 +12,7 @@ export async function Header({ variant = "site" }: { variant?: "site" | "booking
   const locale = await getLocale();
   const dict = await getDictionary();
   const p = (path: string) => localePath(locale, path);
-  const other = locale === "en" ? "sw" : "en";
+  const other = enabledLocales.find((l) => l !== locale);
 
   const links =
     variant === "booking"
@@ -53,11 +53,13 @@ export async function Header({ variant = "site" }: { variant?: "site" | "booking
         </nav>
 
         <div className="flex items-center gap-3 sm:gap-4">
-          <LanguageSwitch
-            target={other}
-            label={dict.language.switchTo}
-            shortLabel={dict.language.switchToShort}
-          />
+          {other && (
+            <LanguageSwitch
+              target={other}
+              label={dict.language.switchTo}
+              shortLabel={dict.language.switchToShort}
+            />
+          )}
           <div className="hidden sm:block">
             <ButtonLink href={cta.href} variant="white">
               {cta.label}

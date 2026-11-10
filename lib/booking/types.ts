@@ -3,7 +3,7 @@ import type { AppointmentType } from "./options";
 
 export type AppointmentStatus = "pending" | "confirmed" | "cancelled";
 
-/** Row shape of public.appointments (supabase/migrations/0001_init.sql). */
+/** Row shape of public.appointments (supabase/migrations/20261107000000_init.sql). */
 export type Appointment = {
   id: string;
   /** 8 digits; display with formatReference(). */

@@ -1,12 +1,12 @@
 import { z } from "zod";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
-import { isLocale, type Locale } from "@/lib/i18n/config";
+import { isEnabledLocale, type Locale } from "@/lib/i18n/config";
 import { appointmentTypes } from "@/lib/booking/options";
 import { isValidDateISO } from "@/lib/booking/time";
 
 export function readLocale(formData: FormData): Locale {
   const value = String(formData.get("locale") ?? "");
-  return isLocale(value) ? value : "en";
+  return isEnabledLocale(value) ? value : "en";
 }
 
 const phoneDigits = (v: string) => v.replace(/\D/g, "").length;

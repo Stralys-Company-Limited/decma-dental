@@ -40,14 +40,14 @@ export const sw: Dictionary = {
     h1: "Kliniki ya meno Mwanyamala, Dar es Salaam",
     tagline: { lead: "Tunajali kila", accent: "tabasamu." },
     intro:
-      "DECMA Dental Clinic inatoa huduma za meno za kawaida, za kurekebisha na za urembo kwa familia nzima. Katika ziara yako ya kwanza tunachunguza meno yako, tunakueleza chaguo zako na tunakupa makadirio ya gharama kwa maandishi kabla ya matibabu yoyote kuanza.",
+      "DECMA Dental Clinic inatoa huduma za meno za kawaida, za kurekebisha na za urembo kwa familia nzima. Katika miadi yako ya kwanza tunachunguza meno yako, tunakueleza chaguo zako na tunakupa makadirio ya gharama kwa maandishi kabla ya matibabu yoyote kuanza.",
     quickServices: "Uchunguzi na kusafisha meno · Kujaza meno · Kung'arisha meno · Meno ya watoto",
     heroImageAlt:
       "Mchoro wa jino kubwa jeupe likisafishwa na kung'arishwa na timu iliyovaa sare za buluu",
     servicesIntro:
       "Kuanzia uchunguzi wa kawaida hadi vipandikizi na braces. Chagua huduma kuona inachohusisha.",
     explore: {
-      eyebrow: "Panga ziara yako",
+      eyebrow: "Panga miadi yako",
       title: "Kila unachohitaji kabla ya kuja",
       cards: {
         visit: {
@@ -104,7 +104,7 @@ export const sw: Dictionary = {
   visit: {
     eyebrow: "Cha kutarajia",
     title: "Kinachotokea, hatua kwa hatua",
-    h1: "Kinachotokea katika ziara yako",
+    h1: "Kinachotokea katika miadi yako",
     intro:
       "Tunataka ujue hasa cha kutarajia. Hakuna kinachofanyika bila ridhaa yako, na kila mara unapata makadirio ya gharama kwa maandishi kabla ya matibabu.",
     steps: [
@@ -143,7 +143,7 @@ export const sw: Dictionary = {
         a: "Piga simu kliniki wakati wa saa za kazi, tutakushauri na, inapowezekana, kukuona siku hiyo hiyo. Ukiwa na uvimbe mkubwa, shida ya kupumua au kumeza, au damu nyingi, nenda idara ya dharura ya hospitali iliyo karibu.",
       },
       {
-        q: "Ziara ya kwanza huchukua muda gani?",
+        q: "Miadi ya kwanza huchukua muda gani?",
         a: `Panga takriban dakika ${p.length}. Muda huu unajumuisha uchunguzi, X-ray zinazohitajika na muda wa kujadili chaguo zako.`,
       },
       {
@@ -166,7 +166,7 @@ export const sw: Dictionary = {
     title: "Tabia ndogo, meno yenye afya",
     h1: "Ushauri wa afya ya kinywa",
     intro:
-      "Ushauri wa vitendo wa kila siku wa kutunza meno na fizi zako kati ya ziara. Kila makala imepitiwa na timu ya kitabibu ya DECMA.",
+      "Ushauri wa vitendo wa kila siku wa kutunza meno na fizi zako kati ya miadi yako kliniki. Kila makala imepitiwa na timu ya kitabibu ya DECMA.",
   },
 
   openingSoon: {
@@ -285,9 +285,9 @@ export const sw: Dictionary = {
 
   booking: {
     eyebrow: "Mwanyamala, Dar es Salaam",
-    title: { lead: "Panga", accent: "ziara yako." },
-    h1: "Panga ziara yako",
-    intro: "Hatua tatu fupi. Huhitaji akaunti. Saa zote ni za Afrika Mashariki (EAT).",
+    title: { lead: "Panga", accent: "miadi yako." },
+    h1: "Panga miadi yako",
+    intro: "Hatua tatu fupi. Huhitaji akaunti.",
     steps: ["Siku na saa", "Taarifa zako", "Imethibitishwa"],
     stepLabel: (n: number, total: number) => `Hatua ${n} kati ya ${total}`,
     chooseDay: "1. Chagua siku",
@@ -301,7 +301,6 @@ export const sw: Dictionary = {
       unavailable: "Imefungwa au imejaa",
     },
     notChosen: "Bado haijachaguliwa",
-    eat: "EAT",
     pickDayFirst: "Chagua siku hapo juu kuona saa zilizo wazi.",
     noTimes: "Hakuna saa zilizobaki siku hii. Tafadhali chagua siku nyingine.",
     loadingTimes: "Inapakia saa…",
@@ -352,7 +351,7 @@ export const sw: Dictionary = {
       help: "Umepoteza namba ya miadi? Piga simu kliniki, tutakutafutia miadi yako.",
     },
     confirmed: {
-      title: "Ziara yako imepangwa",
+      title: "Miadi yako imepangwa",
       text: (email: string) => `Tumetuma uthibitisho kwa ${email}.`,
       referenceLabel: "Namba ya miadi yako",
       keepReference: "Hifadhi namba hii. Pamoja na namba yako ya simu, inakuwezesha kuangalia au kughairi miadi mtandaoni, au kuitaja unapotupigia simu.",
@@ -397,6 +396,12 @@ export const sw: Dictionary = {
     terms: "Masharti ya matumizi",
   },
 
+  mascot: {
+    hide: "Ficha kwa sasa",
+    brush: ["Dakika mbili, mara mbili kwa siku!", "Usisahau karibu na fizi!", "Tema, usisukutue!", "Safisha kati ya meno kila siku!"],
+    polisher: ["Safi na yanang'aa!", "Usafishaji wa kitaalamu huondoa ukoga.", "Ni wakati wa uchunguzi na kusafishwa?", "Pipi wakati wa mlo tu, tafadhali!"],
+  },
+
   notFound: {
     eyebrow: "Ukurasa haupatikani",
     title: "Hatukuweza kupata ukurasa huo",
@@ -420,12 +425,12 @@ export const sw: Dictionary = {
     },
     confirmation: {
       subject: (when: string) => `Miadi yako DECMA Dental Clinic: ${when}`,
-      preview: "Ziara yako imepangwa. Iongeze kwenye kalenda yako.",
-      heading: "Ziara yako imepangwa",
+      preview: "Miadi yako imepangwa. Iongeze kwenye kalenda yako.",
+      heading: "Miadi yako imepangwa",
       intro: "Asante kwa kupanga miadi na DECMA Dental Clinic. Hizi ni taarifa za miadi yako.",
       addToCalendar: "Ongeza kwenye kalenda yako",
       calendarHint:
-        "Mwaliko ulioambatishwa (appointment.ics) unafanya kazi na kalenda za Apple, Outlook, Samsung na nyingine nyingi, na una vikumbusho siku moja na saa mbili kabla.",
+        "Mwaliko ulioambatishwa (appointment.ics) unaongeza miadi pamoja na vikumbusho siku moja na saa mbili kabla. Au chagua kalenda yako hapa chini.",
       bring: "Kama unatumia bima, tafadhali leta kadi yako ya bima.",
     },
     reminder: {

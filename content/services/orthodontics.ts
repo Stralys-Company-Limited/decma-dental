@@ -62,7 +62,7 @@ export const orthodontics: Service = {
     involves: [
       "Tathmini ya meno, jinsi yanavyokutana na taya, pamoja na X-ray na picha ikihitajika.",
       "Mpango wa matibabu unaoeleza chaguo linalokufaa, muda unaoweza kuchukua na kinachohusika.",
-      "Braces za kudumu: vibanio vinavyobandikwa kwenye meno na kuunganishwa na waya unaorekebishwa katika ziara za kawaida.",
+      "Braces za kudumu: vibanio vinavyobandikwa kwenye meno na kuunganishwa na waya unaorekebishwa katika miadi ya kawaida ya ufuatiliaji.",
       "Aligners za uwazi: mfululizo wa vifuniko vinavyotolewa, karibu visivyoonekana, kila kimoja huvaliwa wiki moja hadi mbili.",
       "Retainer mwishoni mwa matibabu kushikilia meno mahali pake papya.",
     ],

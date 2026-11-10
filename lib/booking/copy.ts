@@ -29,7 +29,6 @@ export function wizardCopy(dict: Dictionary): WizardCopy {
     time: {
       chooseTime: b.chooseTime,
       notChosen: b.notChosen,
-      eat: b.eat,
       pickDayFirst: b.pickDayFirst,
       noTimes: b.noTimes,
       loadingTimes: b.loadingTimes,

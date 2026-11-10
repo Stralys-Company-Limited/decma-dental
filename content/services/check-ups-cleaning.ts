@@ -74,10 +74,10 @@ export const checkUpsCleaning: Service = {
     costFactors: [
       "Kama X-ray zinahitajika.",
       "Kiasi cha ukoga uliojikusanya, kinachoathiri muda wa kusafisha.",
-      "Kama unahitaji usafishaji wa kina wa fizi kwa ziara zaidi ya moja.",
+      "Kama unahitaji usafishaji wa kina wa fizi kwa vikao zaidi ya kimoja.",
     ],
     timing:
-      "Uchunguzi na usafishaji mwingi huchukua ziara moja ya takriban dakika 30 hadi 45. Usafishaji wa kina wa fizi unaweza kugawanywa katika ziara mbili.",
+      "Uchunguzi na usafishaji mwingi huchukua kikao kimoja cha takriban dakika 30 hadi 45. Usafishaji wa kina wa fizi unaweza kugawanywa katika vikao viwili.",
     faqs: [
       {
         q: "Nifanye uchunguzi mara ngapi?",

@@ -71,7 +71,7 @@ export const cosmeticDentistry: Service = {
       "Kama kuna matibabu ya kuoza au fizi yanayohitajika kwanza.",
     ],
     timing:
-      "Whitening na bonding mara nyingi hukamilika kwa ziara moja au mbili. Veneers kwa kawaida huhitaji ziara mbili au tatu ndani ya wiki chache.",
+      "Whitening na bonding mara nyingi hukamilika kwa kikao kimoja au viwili. Veneers kwa kawaida huhitaji vikao viwili au vitatu ndani ya wiki chache.",
     faqs: [
       {
         q: "Je, kung'arisha meno kitaalamu ni salama?",

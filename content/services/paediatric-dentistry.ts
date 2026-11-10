@@ -54,7 +54,7 @@ export const paediatricDentistry: Service = {
       "Huduma za meno za watoto kwa upole DECMA, Mwanyamala: uchunguzi, fissure sealants na matibabu kwa wagonjwa wadogo. Huduma rafiki kwa familia.",
     h1: "Meno ya watoto",
     intro:
-      "Tabia nzuri na ziara zenye uzoefu mzuri utotoni hulinda meno maisha yote. Tunachukua muda kueleza tunachofanya, ili watoto wajisikie salama na wazazi wajue cha kutarajia.",
+      "Tabia nzuri na uzoefu mzuri wa kuja kliniki utotoni hulinda meno maisha yote. Tunachukua muda kueleza tunachofanya, ili watoto wajisikie salama na wazazi wajue cha kutarajia.",
     involves: [
       "Uchunguzi wa upole unaofuatilia ukuaji wa meno ya maziwa na ya kudumu.",
       "Fissure sealants: tabaka jembamba la kinga kwenye sehemu za kutafunia za magego kusaidia kuzuia kuoza.",
@@ -63,7 +63,7 @@ export const paediatricDentistry: Service = {
       "Ushauri kwa wazazi kuhusu kupiga mswaki, lishe, kunyonya kidole na kuota meno.",
     ],
     whoFor: [
-      "Watoto wachanga: tunashauri ziara ya kwanza jino la kwanza linapoota au kabla ya kutimiza mwaka mmoja.",
+      "Watoto wachanga: tunashauri miadi ya kwanza jino la kwanza linapoota au kabla ya kutimiza mwaka mmoja.",
       "Watoto wa umri wa shule na vijana, pamoja na wale wanaoogopa daktari wa meno.",
       "Wazazi wanaotaka ushauri wa kutunza meno ya watoto wao.",
     ],
@@ -73,11 +73,11 @@ export const paediatricDentistry: Service = {
       "Kama vijazo au matibabu mengine yanahitajika.",
     ],
     timing:
-      "Uchunguzi mwingi wa watoto huchukua dakika 20 hadi 30. Tunafanya ziara fupi na za utulivu, na tunagawanya matibabu katika ziara zaidi ya moja ikiwa ni rahisi kwa mtoto.",
+      "Uchunguzi mwingi wa watoto huchukua dakika 20 hadi 30. Tunafanya miadi fupi na ya utulivu, na tunagawanya matibabu katika vikao zaidi ya kimoja ikiwa ni rahisi kwa mtoto.",
     faqs: [
       {
         q: "Mtoto wangu amwone daktari wa meno lini kwa mara ya kwanza?",
-        a: "Jino la kwanza linapoota, au kabla ya kutimiza mwaka mmoja. Ziara za mapema huwasaidia watoto kuizoea kliniki.",
+        a: "Jino la kwanza linapoota, au kabla ya kutimiza mwaka mmoja. Miadi ya mapema huwasaidia watoto kuizoea kliniki.",
       },
       {
         q: "Je, meno ya maziwa yanahitaji kujazwa kweli?",

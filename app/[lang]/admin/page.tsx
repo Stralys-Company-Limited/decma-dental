@@ -137,7 +137,7 @@ async function Dashboard({ searchParams }: { searchParams: Promise<Record<string
             {found ? (
               <p>
                 <strong>{formatReference(found.reference)}</strong> · {found.full_name} ·{" "}
-                {formatDay(new Date(found.starts_at), "en")}, {formatTime(new Date(found.starts_at), "en")} ·{" "}
+                {formatDay(new Date(found.starts_at), "en")}, {formatTime(new Date(found.starts_at))} ·{" "}
                 {found.phone} · <span className={`px-2 py-0.5 text-xs font-semibold ${statusStyle[found.status]}`}>{found.status}</span>{" "}
                 <Link className="font-semibold text-navy underline" href={`/admin?day=${clinicDateISO(new Date(found.starts_at))}`}>
                   Show that week
@@ -180,7 +180,7 @@ async function Dashboard({ searchParams }: { searchParams: Promise<Record<string
                   <ul className="divide-y divide-line">
                     {list.map((a) => (
                       <li key={a.id} className="flex flex-wrap items-center gap-x-6 gap-y-2 py-3 text-sm">
-                        <span className="w-14 font-bold">{formatTime(new Date(a.starts_at), "en")}</span>
+                        <span className="w-20 font-bold">{formatTime(new Date(a.starts_at))}</span>
                         <span className="min-w-48 flex-1">
                           <strong>{a.full_name}</strong> · {formatReference(a.reference)} ·{" "}
                           {en.appointmentTypes[a.appointment_type]}

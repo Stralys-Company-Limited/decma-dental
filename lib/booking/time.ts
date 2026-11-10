@@ -11,8 +11,9 @@ export function clinicDateISO(instant: Date = new Date()): string {
   return formatInTimeZone(instant, CLINIC_TIME_ZONE, "yyyy-MM-dd");
 }
 
-export function clinicTimeHHMM(instant: Date): string {
-  return formatInTimeZone(instant, CLINIC_TIME_ZONE, "HH:mm");
+/** e.g. "9:30 AM", in clinic time. */
+export function clinicTimeLabel(instant: Date): string {
+  return formatInTimeZone(instant, CLINIC_TIME_ZONE, "h:mm a");
 }
 
 /** 0 = Sunday ... 6 = Saturday, matching opening_hours.weekday. */
@@ -67,15 +68,11 @@ export function formatMonth(month: string, locale: Locale): string {
   }).format(new Date(`${month}-01T12:00:00Z`));
 }
 
-export function formatTime(instant: Date, locale: Locale): string {
-  return new Intl.DateTimeFormat(intlLocale[locale], {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-    timeZone: CLINIC_TIME_ZONE,
-  }).format(instant);
+/** Clinic time in 12-hour form, e.g. "9:30 AM". Always clinic (Tanzania) time, whatever the device's time zone. */
+export function formatTime(instant: Date): string {
+  return clinicTimeLabel(instant);
 }
 
 export function formatWhen(instant: Date, locale: Locale): string {
-  return `${formatDay(instant, locale)}, ${formatTime(instant, locale)} EAT`;
+  return `${formatDay(instant, locale)}, ${formatTime(instant)}`;
 }

@@ -12,6 +12,69 @@ import {
 import type { ReactNode } from "react";
 import { site } from "@/lib/site";
 
+/** Email images must be PNGs at a public URL; same default as scripts/resend-templates.mjs. */
+const assetBase = (
+  process.env.EMAIL_ASSET_BASE_URL || "https://raw.githubusercontent.com/Stralys-Company-Limited/decma-dental/main/public"
+).replace(/\/$/, "");
+
+type CalendarCopy = Record<"apple" | "google" | "outlook" | "office" | "other", { label: string; hint: string }>;
+
+/** One full-width button per calendar, each with its own logo (Apple and other apps both use the .ics file). */
+export function CalendarButtons({
+  links,
+  copy,
+}: {
+  links: { ics: string; google: string; outlook: string; office: string };
+  copy: CalendarCopy;
+}) {
+  const rows = [
+    { key: "google", href: links.google, icon: "google-calendar", arrow: "→" },
+    { key: "apple", href: links.ics, icon: "apple", arrow: "↓" },
+    { key: "outlook", href: links.outlook, icon: "outlook", arrow: "→" },
+    { key: "office", href: links.office, icon: "microsoft-365", arrow: "→" },
+    { key: "other", href: links.ics, icon: "calendar", arrow: "↓" },
+  ] as const;
+  return (
+    <Section style={{ margin: "0 0 24px" }}>
+      {rows.map((r) => (
+        <table
+          key={r.key}
+          role="presentation"
+          width="100%"
+          cellPadding={0}
+          cellSpacing={0}
+          style={{ margin: "0 0 8px", border: "1px solid #c9d0e0", background: "#ffffff" }}
+        >
+          <tbody>
+            <tr>
+              <td width={44} style={{ padding: "10px 0 10px 12px", verticalAlign: "middle" }}>
+                <a href={r.href}>
+                  <Img src={`${assetBase}/brand/calendars/${r.icon}.png`} width="28" height="28" alt="" />
+                </a>
+              </td>
+              <td style={{ padding: "10px 12px", verticalAlign: "middle" }}>
+                <a href={r.href} style={{ display: "block", textDecoration: "none" }}>
+                  <span style={{ display: "block", fontSize: "14px", lineHeight: "20px", fontWeight: 700, color: colors.navy }}>
+                    {copy[r.key].label}
+                  </span>
+                  <span style={{ display: "block", fontSize: "12px", lineHeight: "17px", color: "#6b6b69" }}>
+                    {copy[r.key].hint}
+                  </span>
+                </a>
+              </td>
+              <td width={32} align="right" style={{ padding: "10px 14px 10px 0", verticalAlign: "middle" }}>
+                <a href={r.href} style={{ fontSize: "16px", fontWeight: 700, color: colors.navy, textDecoration: "none" }}>
+                  {r.arrow}
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      ))}
+    </Section>
+  );
+}
+
 export const colors = {
   navy: "#223f82",
   navy20: "#d3d9e7",

@@ -1,16 +1,16 @@
 import "server-only";
 import { cookies } from "next/headers";
 import { createServerClient } from "@supabase/ssr";
-import { getSupabaseAdmin, isSupabaseConfigured, supabaseUrl } from "./admin";
+import { getSupabaseAdmin, isSupabaseConfigured, supabasePublicKey, supabaseUrl } from "./admin";
 
 export function isAuthConfigured(): boolean {
-  return isSupabaseConfigured() && !!process.env.SUPABASE_PUBLIC_KEY;
+  return isSupabaseConfigured() && !!supabasePublicKey();
 }
 
 /** Cookie-based Supabase client for staff sign-in (public anon key + the user's session). */
 export async function getSupabaseAuth() {
   const cookieStore = await cookies();
-  return createServerClient(supabaseUrl()!, process.env.SUPABASE_PUBLIC_KEY!, {
+  return createServerClient(supabaseUrl()!, supabasePublicKey()!, {
     cookies: {
       getAll: () => cookieStore.getAll(),
       setAll: (list) => {

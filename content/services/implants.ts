@@ -75,7 +75,7 @@ export const implants: Service = {
       "Aina ya kifaa kilichochaguliwa kwa taji au daraja.",
     ],
     timing:
-      "Taji na madaraja kwa kawaida huhitaji ziara mbili zenye tofauti ya wiki moja hadi mbili. Matibabu ya kipandikizi huchukua miezi kadhaa kuanzia kuwekwa hadi jino la mwisho, ili mfupa upone.",
+      "Taji na madaraja kwa kawaida huhitaji vikao viwili vyenye tofauti ya wiki moja hadi mbili. Matibabu ya kipandikizi huchukua miezi kadhaa kuanzia kuwekwa hadi jino la mwisho, ili mfupa upone.",
     faqs: [
       {
         q: "Je, kuweka kipandikizi kunauma?",

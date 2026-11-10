@@ -18,8 +18,8 @@ export function AddToCalendar({
   copy: CalendarCopy;
 }) {
   const options: { key: string; href: string; logo: string | null; download: boolean; label: string; hint: string }[] = [
-    { key: "apple", href: links.ics, logo: "/brand/calendars/apple.svg", download: true, ...copy.apple },
     { key: "google", href: links.google, logo: "/brand/calendars/google-calendar.svg", download: false, ...copy.google },
+    { key: "apple", href: links.ics, logo: "/brand/calendars/apple.svg", download: true, ...copy.apple },
     { key: "outlook", href: links.outlook, logo: "/brand/calendars/outlook.svg", download: false, ...copy.outlook },
     { key: "office", href: links.office, logo: "/brand/calendars/microsoft-365.svg", download: false, ...copy.office },
     { key: "other", href: links.ics, logo: null, download: true, ...copy.other },

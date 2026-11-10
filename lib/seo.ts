@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import { hreflang, localePath, locales, ogLocale, type Locale } from "@/lib/i18n/config";
+import { enabledLocales, hreflang, localePath, ogLocale, type Locale } from "@/lib/i18n/config";
 import { isPlaceholder, mapsUrl, site } from "@/lib/site";
 
 export function absoluteUrl(locale: Locale, path: string): string {
   return `${site.url}${localePath(locale, path)}`;
 }
 
-/** hreflang map for a page that exists in every locale. */
+/** hreflang map for a page in every published language. */
 export function languageAlternates(path: string): Record<string, string> {
   const map: Record<string, string> = {};
-  for (const l of locales) map[hreflang[l]] = absoluteUrl(l, path);
+  for (const l of enabledLocales) map[hreflang[l]] = absoluteUrl(l, path);
   map["x-default"] = absoluteUrl("en", path);
   return map;
 }
@@ -39,7 +39,7 @@ export function buildMetadata({
       description,
       url,
       locale: ogLocale[locale],
-      alternateLocale: locales.filter((l) => l !== locale).map((l) => ogLocale[l]),
+      alternateLocale: enabledLocales.filter((l) => l !== locale).map((l) => ogLocale[l]),
       images: [{ url: "/og.png", width: 1200, height: 630, alt: site.name }],
     },
     twitter: { card: "summary_large_image", title, description, images: ["/og.png"] },
@@ -80,7 +80,7 @@ export const pageSeo = {
         "What to expect at DECMA: book a time, examination, options and written estimate, then treatment and follow-up, only with your consent.",
     },
     sw: {
-      title: "Cha Kutarajia Katika Ziara Yako ya Kwanza | DECMA Dental Clinic",
+      title: "Cha Kutarajia Katika Miadi Yako ya Kwanza | DECMA Dental Clinic",
       description:
         "Cha kutarajia DECMA: panga muda, uchunguzi, chaguo na makadirio kwa maandishi, kisha matibabu na ufuatiliaji, kwa ridhaa yako tu.",
     },
@@ -125,12 +125,12 @@ export const pageSeo = {
     en: {
       title: "Book a Dental Appointment | DECMA Dental Clinic, Mwanyamala",
       description:
-        "Book online at DECMA Dental Clinic in Mwanyamala. Three short steps, no account needed. Times in East Africa Time (EAT).",
+        "Book online at DECMA Dental Clinic in Mwanyamala. Three short steps, no account needed.",
     },
     sw: {
       title: "Panga Miadi ya Daktari wa Meno | DECMA Dental Clinic, Mwanyamala",
       description:
-        "Panga miadi mtandaoni DECMA Dental Clinic, Mwanyamala. Hatua tatu fupi, huhitaji akaunti. Saa za Afrika Mashariki (EAT).",
+        "Panga miadi mtandaoni DECMA Dental Clinic, Mwanyamala. Hatua tatu fupi, huhitaji akaunti.",
     },
   },
   privacy: {
@@ -184,7 +184,7 @@ export function dentistJsonLd(locale: Locale) {
     hasMap: mapsUrl(),
     openingHours: site.openingHoursSpec.length ? site.openingHoursSpec : undefined,
     areaServed: ["Mwanyamala", "Dar es Salaam"],
-    availableLanguage: ["en", "sw"],
+    availableLanguage: [...enabledLocales],
     paymentAccepted: site.insurersList.length ? site.insurersList.join(", ") : undefined,
     medicalSpecialty: "Dentistry",
   };

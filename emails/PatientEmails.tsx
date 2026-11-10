@@ -1,4 +1,4 @@
-import { Button, Heading, Link, Text } from "@react-email/components";
+import { Button, Heading, Text } from "@react-email/components";
 import { getDictionaryFor } from "@/lib/i18n/dictionaries";
 import { formatDay, formatTime } from "@/lib/booking/time";
 import { formatReference } from "@/lib/booking/reference";
@@ -6,7 +6,7 @@ import { calendarLinks, manageUrl } from "@/lib/booking/calendar-event";
 import { fullAddress, site } from "@/lib/site";
 import { localePath } from "@/lib/i18n/config";
 import type { Appointment } from "@/lib/booking/types";
-import { colors, DetailsTable, EmailLayout, textStyle } from "./EmailLayout";
+import { CalendarButtons, colors, DetailsTable, EmailLayout, textStyle } from "./EmailLayout";
 
 const headingStyle = { color: colors.navy, fontSize: "24px", margin: "0 0 16px", fontFamily: "Helvetica, Arial, sans-serif" };
 const buttonStyle = {
@@ -17,8 +17,6 @@ const buttonStyle = {
   padding: "12px 20px",
   textDecoration: "none",
 };
-const linkStyle = { color: colors.navy, fontSize: "14px", textDecoration: "underline" };
-
 function details(appt: Appointment) {
   const dict = getDictionaryFor(appt.locale);
   const start = new Date(appt.starts_at);
@@ -26,7 +24,7 @@ function details(appt: Appointment) {
   return [
     [l.reference, formatReference(appt.reference)],
     [l.day, formatDay(start, appt.locale)],
-    [l.time, `${formatTime(start, appt.locale)} EAT`],
+    [l.time, formatTime(start)],
     [l.where, fullAddress()],
     [l.type, dict.appointmentTypes[appt.appointment_type]],
   ] as [string, string][];
@@ -46,15 +44,7 @@ export function BookingConfirmationEmail({ appt }: { appt: Appointment }) {
         {e.confirmation.addToCalendar}
       </Heading>
       <Text style={textStyle}>{e.confirmation.calendarHint}</Text>
-      <Text style={{ ...textStyle, margin: "0 0 24px" }}>
-        <Link href={links.google} style={linkStyle}>{dict.booking.confirmed.calendars.google.label}</Link>
-        {"  ·  "}
-        <Link href={links.outlook} style={linkStyle}>{dict.booking.confirmed.calendars.outlook.label}</Link>
-        {"  ·  "}
-        <Link href={links.office} style={linkStyle}>{dict.booking.confirmed.calendars.office.label}</Link>
-        {"  ·  "}
-        <Link href={links.ics} style={linkStyle}>.ics</Link>
-      </Text>
+      <CalendarButtons links={links} copy={dict.booking.confirmed.calendars} />
       <Text style={textStyle}>{e.confirmation.bring}</Text>
       <Button href={manageUrl(appt)} style={buttonStyle}>
         {e.manage}

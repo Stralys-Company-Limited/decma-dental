@@ -3,7 +3,11 @@ import { getSupabaseAdmin, isSupabaseConfigured } from "@/lib/supabase/admin";
 import { sendBookingReminder } from "@/lib/booking/notify";
 import type { Appointment } from "@/lib/booking/types";
 
-const WINDOW_HOURS = 24;
+/**
+ * Runs once a day at 09:00 Tanzania time (vercel.json; Vercel Hobby allows daily crons only), so a 36-hour
+ * window reminds every appointment up to tomorrow evening.
+ */
+const WINDOW_HOURS = 36;
 /** Skip bookings made very recently: the confirmation email has only just gone out. */
 const MIN_AGE_HOURS = 2;
 
@@ -16,7 +20,7 @@ function authorised(req: Request): boolean {
   return expected.length === given.length && timingSafeEqual(expected, given);
 }
 
-/** Runs hourly (vercel.json). Sends one reminder per confirmed appointment starting within the next 24 hours. */
+/** Sends one reminder per confirmed appointment starting within the next WINDOW_HOURS. */
 export async function GET(req: Request) {
   if (!authorised(req)) return new Response("Unauthorized", { status: 401 });
   if (!isSupabaseConfigured()) return Response.json({ sent: 0, skipped: "supabase not configured" });

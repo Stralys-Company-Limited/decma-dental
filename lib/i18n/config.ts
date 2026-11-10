@@ -7,8 +7,18 @@ export const ogLocale: Record<Locale, string> = { en: "en_TZ", sw: "sw_TZ" };
 /** BCP 47 tags used for Intl date and number formatting. */
 export const intlLocale: Record<Locale, string> = { en: "en-GB", sw: "sw-TZ" };
 
+/**
+ * Languages currently published. Swahili content exists but is switched off until a native speaker has
+ * reviewed it; add "sw" here to bring back /sw pages, the language button, hreflang and the sitemap entries.
+ */
+export const enabledLocales: readonly Locale[] = ["en"];
+
 export function isLocale(value: string | undefined | null): value is Locale {
   return !!value && (locales as readonly string[]).includes(value);
+}
+
+export function isEnabledLocale(value: string | undefined | null): value is Locale {
+  return isLocale(value) && enabledLocales.includes(value);
 }
 
 /** Public URL path for a page in a given language. English has no prefix; Swahili lives under /sw. */

@@ -5,7 +5,6 @@ import type { Slot } from "@/lib/booking/types";
 export type TimeCopy = {
   chooseTime: string;
   notChosen: string;
-  eat: string;
   pickDayFirst: string;
   noTimes: string;
   loadingTimes: string;
@@ -59,7 +58,7 @@ export function TimeSlots({
           {copy.chooseTime}
         </h2>
         <p className="text-sm text-ink-80" aria-live="polite">
-          {selected ? selected.time : copy.notChosen} · {copy.eat}
+          {selected ? selected.time : copy.notChosen}
         </p>
       </div>
       {body}

@@ -1,7 +1,7 @@
 import "server-only";
 import { site } from "@/lib/site";
 import { MAX_DAYS_AHEAD, MIN_LEAD_MINUTES } from "./options";
-import { addDaysISO, clinicDateISO, clinicInstant, clinicTimeHHMM, daysInMonth, weekdayOf } from "./time";
+import { addDaysISO, clinicDateISO, clinicInstant, clinicTimeLabel, daysInMonth, weekdayOf } from "./time";
 import { isDemoMode, loadRange, type RangeData } from "./store";
 import type { MonthAvailability, Slot } from "./types";
 
@@ -48,7 +48,7 @@ function slotsFor(
     if (instant.getTime() < earliest) continue;
     const iso = instant.toISOString();
     if (data.booked.has(iso)) continue;
-    slots.push({ time: clinicTimeHHMM(instant), startsAt: iso });
+    slots.push({ time: clinicTimeLabel(instant), startsAt: iso });
   }
   return slots;
 }

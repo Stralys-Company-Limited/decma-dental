@@ -73,7 +73,7 @@ export const fillingsRootCanal: Service = {
       "Kama jino linahitaji taji baadaye.",
     ],
     timing:
-      "Kijazo kwa kawaida huchukua ziara moja ya dakika 30 hadi 60. Root canal kwa kawaida huhitaji ziara moja hadi tatu, kutegemea jino na maambukizi.",
+      "Kijazo kwa kawaida huchukua kikao kimoja cha dakika 30 hadi 60. Root canal kwa kawaida huhitaji kati ya kikao kimoja na vikao vitatu, kutegemea jino na maambukizi.",
     faqs: [
       {
         q: "Je, root canal inauma?",

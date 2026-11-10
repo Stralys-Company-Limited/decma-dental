@@ -21,7 +21,7 @@ export function AppointmentDetails({
   const rows: [string, string][] = [
     [l.reference, formatReference(appt.reference)],
     [l.day, formatDay(start, locale)],
-    [l.time, `${formatTime(start, locale)} EAT`],
+    [l.time, formatTime(start)],
     [l.where, fullAddress()],
     [l.type, dict.appointmentTypes[appt.appointment_type]],
   ];

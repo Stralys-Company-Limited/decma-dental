@@ -1,12 +1,13 @@
 -- DECMA Dental Clinic: bookings, call-backs, referrals and staff access.
 -- Website server code uses the service-role key (bypasses RLS). The anon role gets no access at all;
 -- signed-in staff (listed in public.staff) can read and manage everything through RLS policies.
+-- Idempotent: safe to run again on a database where it has already been applied.
 
 create extension if not exists pgcrypto;
 
 -- Staff -----------------------------------------------------------------------------------------
 
-create table public.staff (
+create table if not exists public.staff (
   user_id uuid primary key references auth.users (id) on delete cascade,
   display_name text,
   created_at timestamptz not null default now()
@@ -24,8 +25,8 @@ $$;
 
 -- Opening hours and closures ---------------------------------------------------------------------
 
--- weekday: 0 = Sunday ... 6 = Saturday. Times are clinic wall-clock time (Africa/Dar_es_Salaam, EAT).
-create table public.opening_hours (
+-- weekday: 0 = Sunday ... 6 = Saturday. Times are clinic wall-clock time (Africa/Dar_es_Salaam).
+create table if not exists public.opening_hours (
   weekday smallint primary key check (weekday between 0 and 6),
   opens time not null,
   closes time not null,
@@ -33,7 +34,7 @@ create table public.opening_hours (
   check (closes > opens)
 );
 
-create table public.closures (
+create table if not exists public.closures (
   day date primary key,
   reason text,
   created_at timestamptz not null default now()
@@ -41,9 +42,15 @@ create table public.closures (
 
 -- Appointments -----------------------------------------------------------------------------------
 
-create type public.appointment_status as enum ('pending', 'confirmed', 'cancelled');
+do $$
+begin
+  create type public.appointment_status as enum ('pending', 'confirmed', 'cancelled');
+exception
+  when duplicate_object then null;
+end
+$$;
 
-create table public.appointments (
+create table if not exists public.appointments (
   id uuid primary key default gen_random_uuid(),
   -- Patient-facing appointment number (8 random digits, shown as DC-1234-5678). The unique constraint
   -- guarantees a number is never reused; the app draws a new one if it ever collides.
@@ -65,14 +72,15 @@ create table public.appointments (
 );
 
 -- One active booking per slot. Cancelled bookings free the slot.
-create unique index appointments_one_per_slot on public.appointments (starts_at) where status <> 'cancelled';
-create index appointments_starts_at on public.appointments (starts_at);
-create index appointments_reminders on public.appointments (starts_at)
+create unique index if not exists appointments_one_per_slot on public.appointments (starts_at)
+  where status <> 'cancelled';
+create index if not exists appointments_starts_at on public.appointments (starts_at);
+create index if not exists appointments_reminders on public.appointments (starts_at)
   where status = 'confirmed' and reminder_sent_at is null;
 
 -- Call-back and referral requests ----------------------------------------------------------------
 
-create table public.callback_requests (
+create table if not exists public.callback_requests (
   id uuid primary key default gen_random_uuid(),
   full_name text not null,
   phone text not null,
@@ -84,7 +92,7 @@ create table public.callback_requests (
   created_at timestamptz not null default now()
 );
 
-create table public.referral_requests (
+create table if not exists public.referral_requests (
   id uuid primary key default gen_random_uuid(),
   practitioner_name text not null,
   practice text not null,
@@ -99,13 +107,13 @@ create table public.referral_requests (
 
 -- Rate limiting (IP addresses are stored as salted hashes only) -----------------------------------
 
-create table public.submission_log (
+create table if not exists public.submission_log (
   id bigint generated always as identity primary key,
   kind text not null,
   ip_hash text not null,
   created_at timestamptz not null default now()
 );
-create index submission_log_lookup on public.submission_log (kind, ip_hash, created_at desc);
+create index if not exists submission_log_lookup on public.submission_log (kind, ip_hash, created_at desc);
 
 -- Row-level security -----------------------------------------------------------------------------
 
@@ -117,21 +125,27 @@ alter table public.callback_requests enable row level security;
 alter table public.referral_requests enable row level security;
 alter table public.submission_log enable row level security;
 
+drop policy if exists "staff read own row" on public.staff;
 create policy "staff read own row" on public.staff
   for select to authenticated using (user_id = auth.uid());
 
+drop policy if exists "staff manage opening hours" on public.opening_hours;
 create policy "staff manage opening hours" on public.opening_hours
   for all to authenticated using (public.is_staff()) with check (public.is_staff());
 
+drop policy if exists "staff manage closures" on public.closures;
 create policy "staff manage closures" on public.closures
   for all to authenticated using (public.is_staff()) with check (public.is_staff());
 
+drop policy if exists "staff manage appointments" on public.appointments;
 create policy "staff manage appointments" on public.appointments
   for all to authenticated using (public.is_staff()) with check (public.is_staff());
 
+drop policy if exists "staff manage call-backs" on public.callback_requests;
 create policy "staff manage call-backs" on public.callback_requests
   for all to authenticated using (public.is_staff()) with check (public.is_staff());
 
+drop policy if exists "staff manage referrals" on public.referral_requests;
 create policy "staff manage referrals" on public.referral_requests
   for all to authenticated using (public.is_staff()) with check (public.is_staff());
 

@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { locales } from "@/lib/i18n/config";
+import { enabledLocales } from "@/lib/i18n/config";
 import { absoluteUrl, languageAlternates } from "@/lib/seo";
 import { services } from "@/content/services";
 import { articles } from "@/content/articles";
@@ -24,7 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   return pages.flatMap(({ path, priority }) =>
-    locales.map((locale) => ({
+    enabledLocales.map((locale) => ({
       url: absoluteUrl(locale, path),
       priority,
       changeFrequency: "monthly" as const,

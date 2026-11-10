@@ -285,7 +285,7 @@ export const en = {
     eyebrow: "Mwanyamala, Dar es Salaam",
     title: { lead: "Book your", accent: "visit." },
     h1: "Book your visit",
-    intro: "Three short steps. No account needed. All times are East Africa Time.",
+    intro: "Three short steps. No account needed.",
     steps: ["Day & time", "Your details", "Confirmed"],
     stepLabel: (n: number, total: number) => `Step ${n} of ${total}`,
     chooseDay: "1. Choose a day",
@@ -299,7 +299,6 @@ export const en = {
       unavailable: "Closed or fully booked",
     },
     notChosen: "Not chosen yet",
-    eat: "EAT",
     pickDayFirst: "Pick a day above to see open times.",
     noTimes: "No times left on this day. Please choose another day.",
     loadingTimes: "Loading times…",
@@ -395,6 +394,12 @@ export const en = {
     terms: "Terms of use",
   },
 
+  mascot: {
+    hide: "Hide for now",
+    brush: ["Two minutes, twice a day!", "Don't forget your gum line!", "Spit, don't rinse!", "Clean between your teeth every day!"],
+    polisher: ["Polished and sparkling!", "A professional clean removes tartar.", "Time for a check-up and clean?", "Sweets at mealtimes only, please!"],
+  },
+
   notFound: {
     eyebrow: "Page not found",
     title: "We couldn't find that page",
@@ -423,7 +428,7 @@ export const en = {
       intro: "Thank you for booking with DECMA Dental Clinic. Here are your appointment details.",
       addToCalendar: "Add to your calendar",
       calendarHint:
-        "The attached invitation (appointment.ics) works with Apple, Outlook, Samsung and most other calendars, and includes reminders one day and two hours before.",
+        "The attached invitation (appointment.ics) adds the appointment with reminders one day and two hours before. Or choose your calendar below.",
       bring: "If you are using insurance, please bring your insurance card.",
     },
     reminder: {

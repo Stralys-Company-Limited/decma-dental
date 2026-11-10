@@ -5,7 +5,7 @@ import { HONEYPOT_FIELD, type FormState } from "@/lib/forms";
 import { fieldErrors, formObject, readLocale, schemas } from "@/lib/validation";
 import { getSupabaseAdmin, isSupabaseConfigured } from "@/lib/supabase/admin";
 import { checkRateLimit } from "@/lib/rate-limit";
-import { clinicNotifyAddress, sendEmail } from "@/lib/email/send";
+import { callbackNotifyAddress, clinicNotifyAddress, sendEmail } from "@/lib/email/send";
 import { CallbackAlertEmail, ReferralAlertEmail } from "@/emails/ClinicEmails";
 
 export async function requestCallback(_prev: FormState, formData: FormData): Promise<FormState> {
@@ -34,7 +34,7 @@ export async function requestCallback(_prev: FormState, formData: FormData): Pro
     });
     if (error) throw error;
 
-    const to = clinicNotifyAddress();
+    const to = callbackNotifyAddress();
     if (to) {
       await sendEmail({
         to,

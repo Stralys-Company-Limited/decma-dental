@@ -151,7 +151,7 @@ export function BookingWizard({
           <AppointmentSummary
             copy={s}
             day={date ? formatDay(date, locale) : copy.time.notChosen}
-            time={slot ? `${slot.time} ${copy.time.eat}` : copy.time.notChosen}
+            time={slot ? slot.time : copy.time.notChosen}
             where={where}
             action={continueButton}
           />

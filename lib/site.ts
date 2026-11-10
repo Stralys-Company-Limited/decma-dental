@@ -5,7 +5,12 @@
  */
 export const site = {
   name: "DECMA Dental Clinic",
-  url: (process.env.SITE_URL ?? "https://decma.co.tz").replace(/\/$/, ""),
+  /** SITE_URL, else the Vercel production address (set automatically by Vercel), else the planned domain. */
+  url: (
+    process.env.SITE_URL ||
+    (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "") ||
+    "https://decma.co.tz"
+  ).replace(/\/$/, ""),
   copyrightYear: 2026,
 
   phone: "[PHONE]",

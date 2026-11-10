@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Open_Sans } from "next/font/google";
 import { getDictionary, getLocale } from "@/lib/i18n/server";
-import { locales } from "@/lib/i18n/config";
+import { enabledLocales } from "@/lib/i18n/config";
 import { site } from "@/lib/site";
 import "../globals.css";
 
@@ -23,7 +23,7 @@ export const viewport: Viewport = {
 };
 
 export async function generateStaticParams() {
-  return locales.map((lang) => ({ lang }));
+  return enabledLocales.map((lang) => ({ lang }));
 }
 
 export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
@@ -31,7 +31,7 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
   const dict = await getDictionary();
 
   return (
-    <html lang={locale} className={openSans.variable}>
+    <html lang={locale} className={openSans.variable} data-scroll-behavior="smooth">
       <body className="flex min-h-dvh flex-col">
         <a
           href="#main"
