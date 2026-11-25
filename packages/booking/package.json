@@ -1,0 +1,29 @@
+{
+  "name": "@decma/booking",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./site": "./src/site.ts",
+    "./types": "./src/types.ts",
+    "./time": "./src/time.ts",
+    "./options": "./src/options.ts",
+    "./reference": "./src/reference.ts",
+    "./availability": "./src/availability.ts",
+    "./store": "./src/store.ts",
+    "./repo": "./src/repo.ts",
+    "./calendar-event": "./src/calendar-event.ts",
+    "./locale": "./src/locale.ts"
+  },
+  "dependencies": {
+    "@decma/db": "workspace:*",
+    "date-fns": "^4.4.0",
+    "date-fns-tz": "^3.2.0",
+    "server-only": "^0.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "typescript": "^5"
+  }
+}

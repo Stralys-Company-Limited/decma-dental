@@ -1,64 +1,93 @@
-# DECMA Dental Clinic website
+# DECMA Dental Clinic
 
-Bilingual (English at `/`, Swahili at `/sw`) clinic website with online booking, built with Next.js 16
-(App Router, Cache Components), Tailwind CSS 4, Supabase and Resend.
+pnpm + Turborepo monorepo for the public clinic website and the staff booking desk.
 
-The design sources (mockup, brand guidelines, SEO recommendations) are kept locally in `design files/`
-and are not committed. Original logo files are in `public/brand/`; the web-sized versions used by the site
-are in `public/brand/web/`.
+| App | Path | Local | Production |
+| --- | --- | --- | --- |
+| Public site + patient booking | `apps/web` | http://localhost:3000 | `decma.co.tz` (Vercel root `apps/web`) |
+| Clinic desk | `apps/clinic` | http://localhost:3001 | `clinic.decma.co.tz` (Vercel root `apps/clinic`) |
+
+Shared packages:
+
+- `@decma/booking` — slots, appointments, calendar links, clinic site details
+- `@decma/db` — Supabase admin + staff auth clients
+- `@decma/notify` — Resend email + NextSMS
+
+English is published on the public site at `/`. Swahili under `/sw` is built but switched off until a native-speaker review (`enabledLocales` in `apps/web/lib/i18n/config.ts`).
+
+Design sources stay local in `design files/` (not committed). Logos live in `apps/web/public/brand/`.
 
 ## Run locally
 
 ```bash
-npm install
-cp .env.example .env   # fill in the values
-npm run dev
+npx pnpm@9.15.0 install
+cp .env.example apps/web/.env
+cp .env.example apps/clinic/.env
+# fill in values in both .env files (same Supabase / Resend / SMS secrets)
+
+npx pnpm@9.15.0 dev          # both apps
+npx pnpm@9.15.0 dev:web      # public site only
+npx pnpm@9.15.0 dev:clinic   # clinic desk only
 ```
 
-Without Supabase keys the site still runs: booking and the forms show a "please call" message.
+Without Supabase keys the public site still runs, and booking uses an in-memory demo store (local development only).
 
 ## Where things live
 
 | What | Where |
 | --- | --- |
-| Clinic details (name, address, phone, hours, opening date, registration numbers) | `lib/site.ts` |
-| Interface text, English and Swahili | `lib/i18n/dictionaries/en.ts`, `sw.ts` |
-| Service pages | `content/services/*.ts` |
-| Oral health articles | `content/articles/{en,sw}/*.mdx` and `content/articles/index.ts` |
-| Privacy notice and terms | `content/legal/{en,sw}/*.mdx` |
-| Page titles and meta descriptions | `lib/seo.ts` |
-| Brand colours and fonts | `app/globals.css` |
-| Database schema | `supabase/migrations/0001_init.sql` |
-| Emails | `emails/` |
+| Clinic details | `packages/booking/src/site.ts` |
+| Public UI text | `apps/web/lib/i18n/dictionaries/` |
+| Service pages / articles / legal | `apps/web/content/` |
+| Database schema | `supabase/migrations/` |
+| Emails + SMS | `packages/notify/` |
+| Clinic desk UI | `apps/clinic/` |
+| Reminder cron | `apps/web/vercel.json` → `/api/cron/reminders` |
 
 Values in `[SQUARE BRACKETS]` are placeholders. Replace them only with confirmed facts.
 
 ## Set up bookings
 
-1. Create a Supabase project and run `supabase/migrations/0001_init.sql` in the SQL editor.
-2. Add the clinic's confirmed hours to `opening_hours` (`supabase/seed.sql` has sample hours for testing).
-3. Set `site.openingDateISO` in `lib/site.ts` to the first bookable day. Online booking stays closed until it is set.
-4. Create a Resend account, verify the sending domain and set `RESEND_API_KEY`, `RESEND_FROM` and `CLINIC_NOTIFY_EMAIL`.
-5. For staff access: create the user in Supabase Auth, then `insert into public.staff (user_id, display_name) values ('<user id>', 'Reception');`.
-   Staff sign in at `/admin`.
+1. Run `supabase/migrations/20261107000000_init.sql` then `20261117000000_clinic_desk.sql` in the Supabase SQL editor (or `pnpm db:push`).
+2. Seed hours from `supabase/seed.sql` if needed.
+3. Set `site.openingDateISO` in `packages/booking/src/site.ts` to the first bookable day.
+4. Resend: `pnpm email:domain`, set `RESEND_API_KEY`, `RESEND_FROM`, `CLINIC_NOTIFY_EMAIL`, `CALLBACK_NOTIFY_EMAIL`.
+5. SMS (optional): `NEXT_SMS_TOKEN`, `NEXT_SMS_SENDER_ID`. Check with `pnpm sms -- balance` / `pnpm sms -- test 07XXXXXXXX`.
+6. Staff: create the user in Supabase Auth, then  
+   `insert into public.staff (user_id, display_name) values ('<user id>', 'Reception');`  
+   Sign in at the clinic desk (`clinic.decma.co.tz` / localhost:3001). Old `/admin` URLs on the public site redirect there.
 
-Patients receive a confirmation email with an `.ics` invitation (works with Apple, Outlook, Samsung and most
-calendars, with reminders one day and two hours before), Google / Outlook.com / Office 365 links, and a link
-to cancel. A reminder email is sent about 24 hours before by the hourly cron job in `vercel.json`
-(`/api/cron/reminders`, protected by `CRON_SECRET`). Hourly cron jobs need a Vercel Pro plan; on Hobby, change
-the schedule to daily.
+## Clinic desk features
+
+- **Today** — day schedule, status/type filters, find by appointment number
+- **Week / Month** — calendar views with closures and booking counts
+- **Walk-in** — staff create bookings (email optional; notify optional)
+- **Appointment detail** — status workflow (confirmed → arrived → completed, no-show, cancel), notes, reschedule
+- **Hours** — opening hours + closures (drive public availability)
+- **Inbox** — call-backs and referral enquiries
+
+## Deploying on Vercel
+
+Create **two** projects from the same GitHub repo:
+
+1. **Web** — Root Directory `apps/web`. Keep the cron from `apps/web/vercel.json`. Set `CLINIC_URL=https://clinic.decma.co.tz`.
+2. **Clinic** — Root Directory `apps/clinic`. No cron required. Same Supabase / Resend / NextSMS secrets as web.
+
+Shared env vars (both projects unless noted):
+
+- Supabase (or Vercel Supabase integration names)
+- `RESEND_API_KEY`, `RESEND_FROM`, template IDs, `CLINIC_NOTIFY_EMAIL`, `CALLBACK_NOTIFY_EMAIL`
+- `NEXT_SMS_TOKEN`, `NEXT_SMS_SENDER_ID`
+- `CRON_SECRET` (web only), `SITE_URL` (web), `CLINIC_URL` (web + clinic staff email links)
+- `EMAIL_ASSET_BASE_URL` once the public site is live
+
+Staff auth cookies stay on the clinic origin (correct for this split).
 
 ## Launch checklist
 
-- [ ] Confirm the single public name, domain (`decma.co.tz`) and set `SITE_URL`.
-- [ ] Replace every placeholder in `lib/site.ts` (phone, email, address, landmark, hours, insurers,
-      cancellation policy, facility registration number, map embed, geo coordinates).
-- [ ] Native-speaker review of all Swahili text (dictionaries, services, articles, legal pages).
-- [ ] Legal review of the privacy notice and terms.
-- [ ] Replace `public/images/hero-tooth.webp` with the original illustration file, and add real clinic photos
-      (no named or identifiable doctors).
-- [ ] Supabase migration run, opening hours entered, staff accounts created.
-- [ ] Resend domain verified; send a test booking and check the confirmation, reminder and cancellation emails.
-- [ ] Vercel: environment variables set, HTTPS, one preferred host (www or non-www) redirecting to the other.
-- [ ] Google Search Console and Bing Webmaster: verify the site and submit `/sitemap.xml`.
-- [ ] Google Business Profile: "Dental clinic", opening date, the exact same name, address and phone as the site.
+- [ ] Confirm domains; set `SITE_URL` and `CLINIC_URL`.
+- [ ] Replace placeholders in `packages/booking/src/site.ts`.
+- [ ] Run both SQL migrations on Supabase; create staff users.
+- [ ] Resend domain verified; SMS Sender ID approved on the same NextSMS account as the token.
+- [ ] Dual Vercel projects configured with root directories above.
+- [ ] Search Console / Business Profile as before.

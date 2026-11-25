@@ -1,0 +1,171 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy: #223f82;
+  --color-navy-80: #4e659b;
+  --color-navy-60: #7a8cb4;
+  --color-navy-40: #a7b2cd;
+  --color-navy-20: #d3d9e7;
+  /* Text on turquoise: plain navy is only 3.6:1 there, this keeps small text above 4.5:1. */
+  --color-navy-deep: #16295a;
+
+  --color-teal: #00ada2;
+  --color-teal-80: #33bdb5;
+  --color-teal-60: #66cec7;
+  --color-teal-40: #99deda;
+  --color-teal-20: #ccefec;
+  /* Turquoise for text and icons on light backgrounds: brand #00ada2 is only 2.8:1 on white, this is 5.2:1. */
+  --color-teal-deep: #007a72;
+
+  --color-ink: #1d1d1b;
+  --color-ink-80: #4a4a49;
+  --color-ink-60: #6b6b69;
+  --color-ink-20: #d2d2d1;
+  --color-line: #e3e6ee;
+
+  --color-lavender: #bebbde;
+
+  --font-sans: var(--font-open-sans), "Open Sans", Arial, sans-serif;
+  --font-display: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Keeps in-page anchors (#callback etc.) clear of the 72px sticky header. */
+    scroll-padding-top: 5.5rem;
+  }
+
+  body {
+    @apply bg-white font-sans text-ink antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display text-navy;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-teal;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+@utility container-page {
+  @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+}
+
+/* Tooth mascot (components/mascot). Only animates for visitors who have not asked for reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .mascot-bob {
+    animation: mascot-bob 1.6s ease-in-out infinite;
+  }
+  .mascot-wave {
+    animation: mascot-wave 1.2s ease-in-out infinite;
+  }
+  .mascot-blink {
+    animation: mascot-blink 4s infinite;
+  }
+  .mascot-brush {
+    animation: mascot-brush 0.35s ease-in-out infinite alternate;
+  }
+  .mascot-spin {
+    animation: mascot-spin 0.4s linear infinite;
+  }
+  .mascot-bubble {
+    animation: mascot-bubble 1.6s ease-out infinite;
+  }
+  .mascot-bubble-2 {
+    animation-delay: 0.8s;
+  }
+  .mascot-twinkle {
+    animation: mascot-twinkle 1.1s ease-in-out infinite;
+  }
+  .mascot-twinkle-2 {
+    animation-delay: 0.55s;
+  }
+}
+
+@keyframes mascot-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+@keyframes mascot-wave {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(18deg);
+  }
+}
+@keyframes mascot-blink {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.1);
+  }
+}
+@keyframes mascot-brush {
+  from {
+    transform: rotate(-12deg);
+  }
+  to {
+    transform: rotate(10deg);
+  }
+}
+@keyframes mascot-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes mascot-bubble {
+  0% {
+    transform: translateY(0) scale(0.6);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-12px) scale(1.1);
+    opacity: 0;
+  }
+}
+@keyframes mascot-twinkle {
+  0%,
+  100% {
+    transform: scale(0.4);
+    opacity: 0.2;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.mascot-bubble,
+.mascot-twinkle {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@utility pattern-strip {
+  background-image: url("/brand/web/pattern-tile.png");
+  background-size: 30px 32px;
+  background-repeat: repeat;
+}
