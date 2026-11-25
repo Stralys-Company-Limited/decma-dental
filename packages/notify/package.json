@@ -1,0 +1,29 @@
+{
+  "name": "@decma/notify",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./email": "./src/email/send.ts",
+    "./sms": "./src/sms/send.ts",
+    "./emails/ClinicEmails": "./src/emails/ClinicEmails.tsx",
+    "./emails/PatientEmails": "./src/emails/PatientEmails.tsx"
+  },
+  "dependencies": {
+    "@decma/booking": "workspace:*",
+    "@react-email/components": "^1.0.12",
+    "@react-email/render": "^2.2.0",
+    "date-fns-tz": "^3.2.0",
+    "resend": "^6.37.0",
+    "server-only": "^0.0.1"
+  },
+  "peerDependencies": {
+    "react": "^19.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "typescript": "^5"
+  }
+}
